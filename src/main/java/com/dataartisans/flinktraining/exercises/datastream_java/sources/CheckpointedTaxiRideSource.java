@@ -20,6 +20,8 @@ import com.dataartisans.flinktraining.exercises.datastream_java.datatypes.TaxiRi
 import org.apache.flink.streaming.api.checkpoint.ListCheckpointed;
 import org.apache.flink.streaming.api.functions.source.SourceFunction;
 import org.apache.flink.streaming.api.watermark.Watermark;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -54,6 +56,8 @@ import java.util.zip.GZIPInputStream;
  *
  */
 public class CheckpointedTaxiRideSource implements SourceFunction<TaxiRide>, ListCheckpointed<Long> {
+
+	private static final Logger LOG = LoggerFactory.getLogger(CheckpointedTaxiRideSource.class);
 
 	private final String dataFilePath;
 	private final int servingSpeed;
@@ -164,7 +168,9 @@ public class CheckpointedTaxiRideSource implements SourceFunction<TaxiRide>, Lis
 
 	@Override
 	public void restoreState(List<Long> state) throws Exception {
-		for (Long s : state)
+		for (Long s : state) {
+			LOG.info("current state= {}",s);
 			this.eventCnt = s;
+		}
 	}
 }

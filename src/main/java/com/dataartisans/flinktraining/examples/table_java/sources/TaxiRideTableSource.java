@@ -17,6 +17,7 @@
 package com.dataartisans.flinktraining.examples.table_java.sources;
 
 import com.dataartisans.flinktraining.exercises.datastream_java.datatypes.TaxiRide;
+import com.dataartisans.flinktraining.exercises.datastream_java.sources.CheckpointedTaxiRideSource;
 import com.dataartisans.flinktraining.exercises.datastream_java.sources.TaxiRideSource;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
@@ -31,6 +32,8 @@ import org.apache.flink.table.sources.StreamTableSource;
 import org.apache.flink.table.sources.tsextractors.StreamRecordTimestamp;
 import org.apache.flink.table.sources.wmstrategies.PreserveWatermarks;
 import org.apache.flink.types.Row;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.List;
@@ -54,6 +57,7 @@ import java.util.List;
  *
  */
 public class TaxiRideTableSource implements StreamTableSource<Row>, DefinedRowtimeAttributes {
+	private static final Logger LOG = LoggerFactory.getLogger(TaxiRideTableSource.class);
 
 	private final TaxiRideSource taxiRideSource;
 
@@ -175,6 +179,7 @@ public class TaxiRideTableSource implements StreamTableSource<Row>, DefinedRowti
 	@Override
 	public List<RowtimeAttributeDescriptor> getRowtimeAttributeDescriptors() {
 		RowtimeAttributeDescriptor descriptor = new RowtimeAttributeDescriptor("eventTime", new StreamRecordTimestamp(), new PreserveWatermarks());
+		LOG.info("RowtimeAttributeDescriptor = {}",descriptor);
 		return Collections.singletonList(descriptor);
 	}
 

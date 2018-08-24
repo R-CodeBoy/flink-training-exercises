@@ -31,6 +31,8 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.co.RichCoFlatMapFunction;
 import org.apache.flink.util.Collector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Java reference implementation for the "Stateful Enrichment" exercise of the Flink training
@@ -44,6 +46,9 @@ import org.apache.flink.util.Collector;
  *
  */
 public class RidesAndFaresSolution extends ExerciseBase {
+
+	private static final Logger LOG = LoggerFactory.getLogger(RidesAndFaresSolution.class);
+
 	public static void main(String[] args) throws Exception {
 
 		ParameterTool params = ParameterTool.fromArgs(args);
@@ -72,8 +77,10 @@ public class RidesAndFaresSolution extends ExerciseBase {
 				.flatMap(new EnrichmentFunction());
 
 		printOrTest(enrichedRides);
-
+		System.out.println("current thread = "+Thread.currentThread().getName());
 		env.execute("Join Rides with Fares (java RichCoFlatMap)");
+		System.out.println("current thread = "+Thread.currentThread().getName());
+
 	}
 
 	public static class EnrichmentFunction extends RichCoFlatMapFunction<TaxiRide, TaxiFare, Tuple2<TaxiRide, TaxiFare>> {
@@ -83,13 +90,16 @@ public class RidesAndFaresSolution extends ExerciseBase {
 
 		@Override
 		public void open(Configuration config) {
-			rideState = getRuntimeContext().getState(new ValueStateDescriptor<>("saved ride", TaxiRide.class));
+            System.out.println("current thread = "+Thread.currentThread().getName());
+            rideState = getRuntimeContext().getState(new ValueStateDescriptor<>("saved ride", TaxiRide.class));
 			fareState = getRuntimeContext().getState(new ValueStateDescriptor<>("saved fare", TaxiFare.class));
 		}
 
 		@Override
 		public void flatMap1(TaxiRide ride, Collector<Tuple2<TaxiRide, TaxiFare>> out) throws Exception {
-			TaxiFare fare = fareState.value();
+		    TaxiFare fare = fareState.value();
+            System.out.println("current thread flatMap1= "+Thread.currentThread().getName());
+            LOG.info("fare current state = {}",fare);
 			if (fare != null) {
 				fareState.clear();
 				out.collect(new Tuple2(ride, fare));
@@ -101,7 +111,9 @@ public class RidesAndFaresSolution extends ExerciseBase {
 		@Override
 		public void flatMap2(TaxiFare fare, Collector<Tuple2<TaxiRide, TaxiFare>> out) throws Exception {
 			TaxiRide ride = rideState.value();
-			if (ride != null) {
+			System.out.println("current thread flatMap2= "+Thread.currentThread().getName());
+            LOG.info("ride current state = {}",ride);
+            if (ride != null) {
 				rideState.clear();
 				out.collect(new Tuple2(ride, fare));
 			} else {

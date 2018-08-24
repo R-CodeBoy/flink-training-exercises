@@ -16,7 +16,9 @@
 
 package com.dataartisans.flinktraining.examples.datastream_java.basics;
 
+import com.dataartisans.flinktraining.examples.table_java.sources.TaxiRideTableSource;
 import com.dataartisans.flinktraining.exercises.datastream_java.datatypes.TaxiRide;
+import com.dataartisans.flinktraining.exercises.datastream_java.sources.CheckpointedTaxiRideSource;
 import com.dataartisans.flinktraining.exercises.datastream_java.sources.TaxiRideSource;
 import com.dataartisans.flinktraining.exercises.datastream_java.utils.ExerciseBase;
 import org.apache.flink.api.common.functions.MapFunction;
@@ -27,6 +29,8 @@ import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.KeyedStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.table.api.TableEnvironment;
+import org.apache.flink.table.api.java.StreamTableEnvironment;
 
 /**
  * Example that counts the rides for each driver.
@@ -48,8 +52,14 @@ public class RideCount {
 		StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 		env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
 
+		StreamTableEnvironment streamTableEnvironment = TableEnvironment.getTableEnvironment(env);
+
 		// start the data generator
-		DataStream<TaxiRide> rides = env.addSource(new TaxiRideSource(input, maxEventDelay, servingSpeedFactor));
+//		DataStream<TaxiRide> rides = env.addSource(new TaxiRideSource(input, maxEventDelay, servingSpeedFactor));
+		DataStream<TaxiRide> rides = env.addSource(new CheckpointedTaxiRideSource(input, servingSpeedFactor));
+//		streamTableEnvironment.registerTableSource("Ride Input",new TaxiRideTableSource(input, servingSpeedFactor));
+
+
 
 		// map each ride to a tuple of (driverId, 1)
 		DataStream<Tuple2<Long, Long>> tuples = rides.map(new MapFunction<TaxiRide, Tuple2<Long, Long>>() {

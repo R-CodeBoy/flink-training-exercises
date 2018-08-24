@@ -20,10 +20,13 @@ import com.dataartisans.flinktraining.exercises.datastream_java.datatypes.TaxiFa
 import com.dataartisans.flinktraining.exercises.datastream_java.sources.TaxiFareSource;
 import com.dataartisans.flinktraining.exercises.datastream_java.utils.ExerciseBase;
 import com.dataartisans.flinktraining.exercises.datastream_java.utils.MissingSolutionException;
+import com.dataartisans.flinktraining.solutions.datastream_java.state.RidesAndFaresSolution;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The "Hourly Tips" exercise of the Flink training
@@ -37,6 +40,8 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
  *
  */
 public class HourlyTipsExercise extends ExerciseBase {
+
+	private static final Logger LOG = LoggerFactory.getLogger(HourlyTipsExercise.class);
 
 	public static void main(String[] args) throws Exception {
 

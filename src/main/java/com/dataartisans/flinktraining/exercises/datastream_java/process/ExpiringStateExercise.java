@@ -22,6 +22,7 @@ import com.dataartisans.flinktraining.exercises.datastream_java.sources.Checkpoi
 import com.dataartisans.flinktraining.exercises.datastream_java.sources.CheckpointedTaxiRideSource;
 import com.dataartisans.flinktraining.exercises.datastream_java.utils.ExerciseBase;
 import com.dataartisans.flinktraining.exercises.datastream_java.utils.MissingSolutionException;
+import com.dataartisans.flinktraining.solutions.datastream_java.process.ExpiringStateSolution;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.configuration.Configuration;
@@ -32,6 +33,8 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.co.CoProcessFunction;
 import org.apache.flink.util.Collector;
 import org.apache.flink.util.OutputTag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The "Expiring State" exercise from the Flink training
@@ -45,6 +48,9 @@ import org.apache.flink.util.OutputTag;
  *
  */
 public class ExpiringStateExercise extends ExerciseBase {
+
+	private static final Logger LOG = LoggerFactory.getLogger(ExpiringStateExercise.class);
+
 	static final OutputTag<TaxiRide> unmatchedRides = new OutputTag<TaxiRide>("unmatchedRides") {};
 	static final OutputTag<TaxiFare> unmatchedFares = new OutputTag<TaxiFare>("unmatchedFares") {};
 

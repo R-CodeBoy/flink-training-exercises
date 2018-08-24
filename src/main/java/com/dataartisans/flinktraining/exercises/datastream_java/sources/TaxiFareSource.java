@@ -20,6 +20,8 @@ import com.dataartisans.flinktraining.exercises.datastream_java.datatypes.TaxiFa
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.functions.source.SourceFunction;
 import org.apache.flink.streaming.api.watermark.Watermark;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -52,6 +54,7 @@ import java.util.zip.GZIPInputStream;
  *
  */
 public class TaxiFareSource implements SourceFunction<TaxiFare> {
+	private static final Logger LOG = LoggerFactory.getLogger(TaxiFareSource.class);
 
 	private final int maxDelayMsecs;
 	private final int watermarkDelayMSecs;

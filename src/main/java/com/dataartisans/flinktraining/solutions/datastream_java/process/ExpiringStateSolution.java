@@ -33,6 +33,8 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.co.CoProcessFunction;
 import org.apache.flink.util.Collector;
 import org.apache.flink.util.OutputTag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Java reference implementation for the "Expiring State" exercise of the Flink training
@@ -46,6 +48,9 @@ import org.apache.flink.util.OutputTag;
  *
  */
 public class ExpiringStateSolution extends ExerciseBase {
+
+	private static final Logger LOG = LoggerFactory.getLogger(ExpiringStateSolution.class);
+
 	static final OutputTag<TaxiRide> unmatchedRides = new OutputTag<TaxiRide>("unmatchedRides") {};
 	static final OutputTag<TaxiFare> unmatchedFares = new OutputTag<TaxiFare>("unmatchedFares") {};
 

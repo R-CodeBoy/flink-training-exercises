@@ -22,6 +22,7 @@ import com.google.common.collect.Lists;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -40,7 +41,11 @@ public class RideCleansingTest extends TaxiRideTestBase<TaxiRide> {
 
 		TestRideSource source = new TestRideSource(atPennStation, toThePole, fromThePole, atNorthPole);
 
-		assertEquals(Lists.newArrayList(atPennStation), results(source));
+//		assertEquals(Lists.newArrayList(atPennStation), results(source));
+//		assertEquals(Lists.newArrayList(toThePole), results(source));
+//		assertEquals(Lists.newArrayList(fromThePole), results(source));
+//		assertEquals(Lists.newArrayList(atNorthPole), results(source));
+		assertEquals(Lists.newArrayList(fromThePole,atNorthPole,toThePole), results(source));
 	}
 
 	private TaxiRide testRide(float startLon, float startLat, float endLon, float endLat) {
@@ -52,5 +57,9 @@ public class RideCleansingTest extends TaxiRideTestBase<TaxiRide> {
 		Testable javaSolution = () -> com.dataartisans.flinktraining.solutions.datastream_java.basics.RideCleansingSolution.main(new String[]{});
 		return runApp(source, new TestSink<>(), javaExercise, javaSolution);
 	}
+/*
+	public static void main(String[] args) {
+		System.out.println(new DateTime(0));
+	}*/
 
 }

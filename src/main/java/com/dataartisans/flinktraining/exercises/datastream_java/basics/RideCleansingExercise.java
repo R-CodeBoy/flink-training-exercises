@@ -68,6 +68,7 @@ public class RideCleansingExercise extends ExerciseBase {
 
 		@Override
 		public boolean filter(TaxiRide taxiRide) throws Exception {
+//			return false;
 			throw new MissingSolutionException();
 		}
 	}

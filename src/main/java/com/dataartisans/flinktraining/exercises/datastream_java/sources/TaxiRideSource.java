@@ -20,6 +20,8 @@ import com.dataartisans.flinktraining.exercises.datastream_java.datatypes.TaxiRi
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.functions.source.SourceFunction;
 import org.apache.flink.streaming.api.watermark.Watermark;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -52,8 +54,9 @@ import java.util.zip.GZIPInputStream;
  *
  */
 public class TaxiRideSource implements SourceFunction<TaxiRide> {
+    private static final Logger LOG = LoggerFactory.getLogger(TaxiRideSource.class);
 
-	private final int maxDelayMsecs;
+    private final int maxDelayMsecs;
 	private final int watermarkDelayMSecs;
 
 	private final String dataFilePath;
@@ -144,6 +147,7 @@ public class TaxiRideSource implements SourceFunction<TaxiRide> {
 			dataStartTime = getEventTime(ride);
 			// get delayed time
 			long delayedEventTime = dataStartTime + getNormalDelayMsecs(rand);
+			LOG.info("delayedEventTime = {}",delayedEventTime);
 
 			emitSchedule.add(new Tuple2<Long, Object>(delayedEventTime, ride));
 			// schedule next watermark
