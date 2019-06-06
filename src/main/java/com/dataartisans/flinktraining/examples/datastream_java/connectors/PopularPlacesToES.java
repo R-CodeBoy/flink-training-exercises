@@ -35,7 +35,7 @@ import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.streaming.connectors.elasticsearch.ElasticsearchSinkFunction;
 import org.apache.flink.streaming.connectors.elasticsearch.RequestIndexer;
-import org.apache.flink.streaming.connectors.elasticsearch2.ElasticsearchSink;
+//import org.apache.flink.streaming.connectors.elasticsearch2.ElasticsearchSink;
 import org.apache.flink.util.Collector;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.Requests;
@@ -61,7 +61,7 @@ import java.util.Map;
  */
 public class PopularPlacesToES {
 
-	public static void main(String[] args) throws Exception {
+	/*public static void main(String[] args) throws Exception {
 
 		// read parameters
 		ParameterTool params = ParameterTool.fromArgs(args);
@@ -113,9 +113,9 @@ public class PopularPlacesToES {
 		env.execute("Popular Places to Elasticsearch");
 	}
 
-	/**
+	*//**
 	 * Inserts popular places into the "nyc-places" index.
-	 */
+	 *//*
 	public static class PopularPlaceInserter
 			implements ElasticsearchSinkFunction<Tuple5<Float, Float, Long, Boolean, Integer>> {
 
@@ -142,10 +142,10 @@ public class PopularPlacesToES {
 		}
 	}
 
-	/**
+	*//**
 	 * Maps taxi ride to grid cell and event type.
 	 * Start records use departure location, end record use arrival location.
-	 */
+	 *//*
 	public static class GridCellMatcher implements MapFunction<TaxiRide, Tuple2<Integer, Boolean>> {
 
 		@Override
@@ -157,9 +157,9 @@ public class PopularPlacesToES {
 		}
 	}
 
-	/**
+	*//**
 	 * Counts the number of rides arriving or departing.
-	 */
+	 *//*
 	public static class RideCounter implements WindowFunction<
 			Tuple2<Integer, Boolean>,                // input type
 			Tuple4<Integer, Long, Boolean, Integer>, // output type
@@ -188,9 +188,9 @@ public class PopularPlacesToES {
 		}
 	}
 
-	/**
+	*//**
 	 * Maps the grid cell id back to longitude and latitude coordinates.
-	 */
+	 *//*
 	public static class GridToCoordinates implements
 			MapFunction<Tuple4<Integer, Long, Boolean, Integer>, Tuple5<Float, Float, Long, Boolean, Integer>> {
 
@@ -214,6 +214,6 @@ public class PopularPlacesToES {
 			return GeoUtils.isInNYC(taxiRide.startLon, taxiRide.startLat) &&
 					GeoUtils.isInNYC(taxiRide.endLon, taxiRide.endLat);
 		}
-	}
+	}*/
 
 }

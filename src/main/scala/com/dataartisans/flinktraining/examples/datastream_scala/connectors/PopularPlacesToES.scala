@@ -28,7 +28,7 @@ import org.apache.flink.streaming.api.scala._
 import org.apache.flink.streaming.api.TimeCharacteristic
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.streaming.api.windowing.time.Time
-import org.apache.flink.streaming.connectors.elasticsearch2._
+//import org.apache.flink.streaming.connectors.elasticsearch2._
 import org.apache.flink.util.Collector
 import org.elasticsearch.action.index.IndexRequest
 import org.elasticsearch.client.Requests
@@ -48,7 +48,7 @@ import scala.collection.JavaConverters._
   */
 object PopularPlacesToES {
 
-  def main(args: Array[String]) {
+  /*def main(args: Array[String]) {
 
     // read parameters
     val params = ParameterTool.fromArgs(args)
@@ -101,12 +101,12 @@ object PopularPlacesToES {
 
     // execute the transformation pipeline
     env.execute("Popular Places to Elasticsearch")
-  }
+  }*/
 
   /**
     * Inserts popular places into the "nyc-places" index.
     */
-  class PopularPlaceInserter extends ElasticsearchSinkFunction[(Float, Float, Long, Boolean, Int)] {
+/*  class PopularPlaceInserter extends ElasticsearchSinkFunction[(Float, Float, Long, Boolean, Int)] {
 
     def process(record: (Float, Float, Long, Boolean, Int), ctx: RuntimeContext, indexer: RequestIndexer) {
 
@@ -124,7 +124,7 @@ object PopularPlacesToES {
 
       indexer.add(rqst)
     }
-  }
+  }*/
 
   /**
     * Map taxi ride to grid cell and event type.
