@@ -9,7 +9,7 @@ import org.apache.flink.streaming.examples.wordcount.util.WordCountData;
 import org.apache.flink.util.Collector;
 
 /**
- * Created by guanghui01.rong on 2019/6/11. 
+ * Created by guanghui01.rong on 2019/6/11.
  */
 public class WordCountTransform {
 
@@ -39,20 +39,18 @@ public class WordCountTransform {
 		final int windowSize = 10;
 		final int slideSize = 5;
 
-		DataStream<Tuple2<String,Integer>>  counts = text.flatMap(new Tokenizer())
-		.setParallelism(4).slotSharingGroup("flatmap_sg")
-		.keyBy(0)
-		.countWindow(windowSize,slideSize)
-		.sum(1).setParallelism(2).slotSharingGroup("sum_sg");
-
+		DataStream<Tuple2<String, Integer>> counts = text.flatMap(new Tokenizer())
+			.setParallelism(4).slotSharingGroup("flatmap_sg")
+			.keyBy(0)
+			.countWindow(windowSize, slideSize)
+			.sum(1).setParallelism(2).slotSharingGroup("sum_sg");
 
 		counts.print().setParallelism(2);
 
 		env.execute("flink job execute graph demo");
 	}
 
-
-	static class Tokenizer implements FlatMapFunction<String,Tuple2<String,Integer>> {
+	static class Tokenizer implements FlatMapFunction<String, Tuple2<String, Integer>> {
 
 		@Override
 		public void flatMap(String value, Collector<Tuple2<String, Integer>> out) {
